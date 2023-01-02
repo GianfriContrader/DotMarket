@@ -14,10 +14,17 @@
 
         public DateTime AtCreated { get; set; } = DateTime.Now;
 
+        public bool IsSubscribed { get; set; } = false;
+        // one to one con User
+        public string UserId { get; set; } = string.Empty;
+
+        public User User { get; set; } = new User();
+
 
         // many to many con address
         public List<Address> Addresses { get; set; } = new List<Address>();
 
-        //todo Creare relazioni con il resto
+
+        //TODO: Inserire el altre relazioni.
     }
 }

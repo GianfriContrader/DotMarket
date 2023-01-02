@@ -1,4 +1,6 @@
-﻿namespace DotMarket.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace DotMarket.Models
 {
     public class Address
     {
@@ -8,7 +10,7 @@
         public string Region { get; set; } = string.Empty;
 
         //many to many con Profile
-        public List<Profile> Profiles { get; set; }
+        public List<Profile> Profiles { get; set; } = new List<Profile>();
 
 
     }
