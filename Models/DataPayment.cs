@@ -18,7 +18,7 @@ namespace DotMarket.Models
         }
 
         //constructor with parameter _lazyLoader
-        public DataPayment(ILazyLoader _lazyLoader)
+        private DataPayment(ILazyLoader _lazyLoader)
         {
             _LazyLoader = _lazyLoader;
         }
@@ -28,6 +28,12 @@ namespace DotMarket.Models
         public string Number { get; set; }
         public DateOnly ExpirationDate { get; set; }
         public int SecurityCode { get; set; }
+
+        public Payment Payment { get; set; } = new Payment();
+        public long PaymentId { get; set; }
+
+        public InvoicePDF invoicePDF { get; set; } = new InvoicePDF();
+        public long InvoicePDFId { get; set; }
 
         public Profile Profile
         {

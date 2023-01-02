@@ -17,7 +17,7 @@ namespace DotMarket.Models
         }
 
         //constructor with parameter _lazyLoader
-        public InvoicePDF(ILazyLoader _lazyLoader)
+        private InvoicePDF(ILazyLoader _lazyLoader)
         {
             _LazyLoader = _lazyLoader;
         }
@@ -41,6 +41,8 @@ namespace DotMarket.Models
         public DateTime ReleaseDate { get; set; }
         public byte DataPDF { get; set; }
         public byte DataExcel { get; set; }
+
+
 
         
     }

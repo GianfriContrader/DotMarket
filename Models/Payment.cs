@@ -21,12 +21,15 @@ namespace DotMarket.Models
         }
 
         //constructor with parameter _lazyLoader
-        public Payment(ILazyLoader _lazyLoader)
+        private Payment(ILazyLoader _lazyLoader)
         {
             _LazyLoader = _lazyLoader;
         }
 
         public long Id { get; set; }
+
+        public long ResponsePay { get; set; }
+
         public DataPayment? DataPayment
         {
             get
@@ -39,6 +42,7 @@ namespace DotMarket.Models
                 _dataPayment = value;
             }
         }
+
         public Order? Order
         {
             get
@@ -52,8 +56,6 @@ namespace DotMarket.Models
             }
         }
         
-        public long ResponsePay { get; set; }
-        
         public Address? Address
         {
             get
@@ -66,6 +68,6 @@ namespace DotMarket.Models
                 _address = value;
             }
         }
-        
+
     }
 }
