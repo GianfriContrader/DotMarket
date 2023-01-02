@@ -13,7 +13,8 @@ builder.Services.AddDbContext<DotContext>(options => options.UseSqlServer(builde
 
 // ignietto il servizio di identity
 builder.Services.AddIdentity<User, IdentityRole>().AddEntityFrameworkStores<DotContext>().AddDefaultTokenProviders();
-
+//builder.Services.AddDefaultIdentity<IdentityUser>( ... )
+    //.AddRoles<IdentityRole>()
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

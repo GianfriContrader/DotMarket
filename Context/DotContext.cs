@@ -1,8 +1,10 @@
 ﻿namespace DotMarket.Context
+
 {
-    public class DotContext : IdentityDbContext<IdentityUser<long>, IdentityRole<long>, long>
+    public class DotContext : IdentityDbContext<User>
     {
         public DotContext(DbContextOptions<DotContext> options) : base(options) { }
 
+       
     }
 }

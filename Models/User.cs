@@ -1,9 +1,6 @@
-﻿using Microsoft.AspNetCore.Identity;
-
-namespace DotMarket.Models
+﻿namespace DotMarket.Models
 {
     public class User : IdentityUser
-    {
-
+    { 
     }
 }
