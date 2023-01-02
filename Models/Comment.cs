@@ -28,8 +28,6 @@ namespace DotMarket.Models
 
         public bool IsLike { get; set; }
 
-y
-
         public Profile Profile
         {
             get
