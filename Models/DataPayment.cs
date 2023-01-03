@@ -9,14 +9,12 @@ namespace DotMarket.Models
     public class DataPayment
     {
         private ILazyLoader LazyLoader;
-        private Profile? _profile;
-        private Payment? _payment;
-        private InvoicePDF? _invoicePDF;
+        private Profile _profile;
+        private Payment _payment;
 
         //constructor with no arguments
         public DataPayment()
         {
-
         }
 
         //constructor with parameter _lazyLoader
@@ -26,11 +24,14 @@ namespace DotMarket.Models
         }
 
         public long Id { get; set; }
-        public string Circuit { get; set; }
-        public string Number { get; set; }
-        public DateTime ExpirationDate { get; set; }
-        public int SecurityCode { get; set; }
 
+        public string Circuit { get; set; }
+
+        public string Number { get; set; }
+
+        public DateTime ExpirationDate { get; set; }
+
+        public string SecurityCode { get; set; }
 
         public Profile Profile
         {
@@ -55,18 +56,6 @@ namespace DotMarket.Models
             set
             {
                 _payment = value;
-            }
-        }
-        public InvoicePDF InvoicePDF
-        {
-            get
-            {
-                return LazyLoader.Load(this, ref _invoicePDF);
-            }
-
-            set
-            {
-                _invoicePDF = value;
             }
         }
     }

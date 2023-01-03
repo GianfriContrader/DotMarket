@@ -29,6 +29,8 @@ namespace DotMarket.Models
 
         public bool IsLike { get; set; }
 
+        public long ProfileId { get; set; }
+        //
         public Profile Profile
         {
             get
@@ -42,6 +44,8 @@ namespace DotMarket.Models
             }
         }
 
+        public long ProductId { get; set; }
+        //
         public Product Product
         {
             get

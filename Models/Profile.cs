@@ -7,19 +7,17 @@ namespace DotMarket.Models
     public class Profile
     {
         private ILazyLoader LazyLoader;
-        private IEnumerable<DataPayment>? _dataPayments = new List<DataPayment>();
-        private IEnumerable<Order>? _orders = new List<Order>();
-        private IEnumerable<Address>? _addresses = new List<Address>();
-        private IEnumerable<Comment>? _comments = new List<Comment>();
+        private IEnumerable<DataPayment> _dataPayments = new List<DataPayment>();
+        private IEnumerable<Order> _orders = new List<Order>();
+        private IEnumerable<Address> _addresses = new List<Address>();
+        private IEnumerable<Comment> _comments = new List<Comment>();
 
-        private Image? _image;
+        public Profile() { }
 
-        public Profile( ) { }
         private  Profile (ILazyLoader lazyLoader)
         {
             LazyLoader = lazyLoader;
         }
-
 
         public long Id { get; set; }
         
@@ -29,18 +27,30 @@ namespace DotMarket.Models
 
         public string FiscalCode { get; set; } 
 
-        public DateTime? Birthday { get; set; } 
+        public DateTime Birthday { get; set; } 
 
         public DateTime AtCreated { get; set; }
 
         public bool IsSubscribed { get; set; }
+
         // one to one con User
-        public string UserId { get; set; } 
+        //public string UserId { get; set; } 
 
         public User User { get; set; }
 
         // many to many con address
-        public IEnumerable<Address> Addresses { get; set; } 
+        public IEnumerable<Address> Addresses
+        {
+			get
+			{
+				return LazyLoader.Load(this, ref _addresses);
+			}
+
+			set
+			{
+				_addresses = value;
+			}
+		}
 
         //one to many
         public IEnumerable<DataPayment> DataPayments
@@ -56,7 +66,6 @@ namespace DotMarket.Models
             }
         }
 
-
         public IEnumerable<Order> Orders
         {
             get
@@ -67,19 +76,6 @@ namespace DotMarket.Models
             set
             {
                 _orders = value;
-            }
-        }
-
-        public IEnumerable<Address> Adresses
-        {
-            get
-            {
-                return LazyLoader.Load(this, ref _addresses);
-            }
-
-            set
-            {
-                _addresses = value;
             }
         }
 
@@ -95,7 +91,5 @@ namespace DotMarket.Models
                 _comments = value;
             }
         }
-
-
     }
 }
