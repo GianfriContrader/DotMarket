@@ -1,74 +1,22 @@
-﻿using Microsoft.EntityFrameworkCore.Infrastructure;
-
-namespace DotMarket.Models
+﻿namespace DotMarket.Models
 {
-    /*
-     * Entity Payment: defines the payment
-     */
-
     public class Payment
     {
-        private ILazyLoader LazyLoader;
-        private DataPayment _dataPayment;
-        private Order _order;
-        private Address _address;
-
-        //constructor with no arguments
-        public Payment()
-        {
-
-        }
-
-        //constructor with parameter _lazyLoader
-        private Payment(ILazyLoader lazyLoader)
-        {
-            LazyLoader = lazyLoader;
-        }
-
         public long Id { get; set; }
 
         public long ResponsePay { get; set; }
 
         public long AddressId { get; set; }
 
-        public DataPayment DataPayment
-        {
-            get
-            {
-                return LazyLoader.Load(this, ref _dataPayment);
-            }
+        public virtual Address Address { get; set; } = new Address();
 
-            set
-            {
-                _dataPayment = value;
-            }
-        }
+        public virtual Order Order { get; set; } = new Order();
 
-        public Order Order
-        {
-            get
-            {
-                return LazyLoader.Load(this, ref _order);
-            }
+        public virtual DataPayment DataPayment { get; set; }
 
-            set
-            {
-                _order = value;
-            }
-        }
-        
-        public Address Address
-        {
-            get
-            {
-                return LazyLoader.Load(this, ref _address);
-            }
+        public long InvoiceId { get; set; } 
 
-            set
-            {
-                _address = value;
-            }
-        }
+        public virtual InvoicePDF InvoicePDF { get; set; } = new InvoicePDF();
 
     }
 }

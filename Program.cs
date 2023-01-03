@@ -11,7 +11,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 
 //aggiungo db context e setto la stringa di connessione.
-builder.Services.AddDbContext<DotContext>(options => options.UseSqlServer(builder.Configuration["ConnectionStrings:DefaultConnection"]));
+builder.Services.AddDbContext<DotContext>(options => options.UseLazyLoadingProxies().UseSqlServer(builder.Configuration["ConnectionStrings:DefaultConnection"]));
 
 // ignietto il servizio di identity.
 builder.Services.AddIdentity<User, IdentityRole>().AddEntityFrameworkStores<DotContext>().AddDefaultTokenProviders();

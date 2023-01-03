@@ -9,51 +9,17 @@ namespace DotMarket.Models
 
     public class Comment
     {
-
-        private ILazyLoader LazyLoader;
-        private Profile _profile;
-        private Product _product;
-
-        public Comment() { }
-
-        private Comment(ILazyLoader lazyLoader)
-        {
-            LazyLoader = lazyLoader;
-        }
-
         public long Id { get; set; }
 
-        public string Title { get; set; }
+        public string Title { get; set; } = string.Empty;
 
-        public string Description { get; set; }
+        public string Description { get; set; } = string.Empty;
 
         public bool IsLike { get; set; }
 
-        public Profile Profile
-        {
-            get
-            {
-                return LazyLoader.Load(this, ref _profile);
-            }
+        public virtual Profile Profile { get; set; }
 
-            set
-            {
-                _profile = value;
-            }
-        }
-
-        public Product Product
-        {
-            get
-            {
-                return LazyLoader.Load(this, ref _product);
-            }
-
-            set
-            {
-                _product = value;
-            }
-        }
+        public virtual Product Product { get; set; }
 
     }
 }

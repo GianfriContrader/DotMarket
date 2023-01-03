@@ -2,6 +2,7 @@
 {
     public class User : IdentityUser
     { 
-        public Profile Profile { get; set; }
+        public long ProfileId { get; set; }
+        public virtual Profile Profile { get; set; } = new Profile();
     }
 }

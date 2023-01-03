@@ -7,58 +7,17 @@ namespace DotMarket.Models
 
     public class Kart
     {
-        private ILazyLoader LazyLoader;
-
-        private Order? _order;
-        private Product? _product;
-
-
-        public Kart( ) {  }
-
-        public Kart(ILazyLoader lazyLoader) {
-
-            LazyLoader = lazyLoader;
+        public long Id { get; set; }
         
-        }
+        public float TotalPrice { get; set; }
 
-       public long Id { get; set; }
+        public DateTime CreatedAt { get; set; }
 
+        public virtual Profile Profile { get; set; }
 
-        public int Quantity { get; set; }=1;
+        public virtual IEnumerable<ProductKart> ProductsKart { get; set; } = new List<ProductKart>();
 
-        public decimal ProductPrice { get; set; }
-
-        public DateTime Date { get; set; }
-
-        public uint DiscountApplied { get; set; } = 0;
-
-
-        public Order Order
-        {
-            get
-            {
-                return LazyLoader.Load(this, ref _order);
-            }
-
-            set
-            {
-                _order = value;
-            }
-        }
-
-        public Product Product
-        {
-            get
-            {
-                return LazyLoader.Load(this, ref _product);
-            }
-
-            set
-            {
-                _product = value;
-            }
-        }
-
-
+        public virtual Order Order { get; set; }
+        
     }
 }
