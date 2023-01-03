@@ -17,7 +17,7 @@ namespace DotMarket.Models
 
         public Product() { }
 
-        private Product(ILazyLoader lazyLoader)
+        private Product (ILazyLoader lazyLoader)
         {
             LazyLoader = lazyLoader;
         }

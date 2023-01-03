@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Infrastructure.Internal;
 
 namespace DotMarket.Models
 {
@@ -9,10 +8,10 @@ namespace DotMarket.Models
 
     public class Payment
     {
-        private ILazyLoader _LazyLoader;
-        private DataPayment? _dataPayment;
-        private Order? _order;
-        private Address? _address;
+        private ILazyLoader LazyLoader;
+        private DataPayment _dataPayment;
+        private Order _order;
+        private Address _address;
 
         //constructor with no arguments
         public Payment()
@@ -21,20 +20,22 @@ namespace DotMarket.Models
         }
 
         //constructor with parameter _lazyLoader
-        private Payment(ILazyLoader _lazyLoader)
+        private Payment(ILazyLoader lazyLoader)
         {
-            _LazyLoader = _lazyLoader;
+            LazyLoader = lazyLoader;
         }
 
         public long Id { get; set; }
 
         public long ResponsePay { get; set; }
 
-        public DataPayment? DataPayment
+        public long AddressId { get; set; }
+
+        public DataPayment DataPayment
         {
             get
             {
-                return _LazyLoader.Load(this, ref _dataPayment);
+                return LazyLoader.Load(this, ref _dataPayment);
             }
 
             set
@@ -43,11 +44,11 @@ namespace DotMarket.Models
             }
         }
 
-        public Order? Order
+        public Order Order
         {
             get
             {
-                return _LazyLoader.Load(this, ref _order);
+                return LazyLoader.Load(this, ref _order);
             }
 
             set
@@ -56,11 +57,11 @@ namespace DotMarket.Models
             }
         }
         
-        public Address? Address
+        public Address Address
         {
             get
             {
-                return _LazyLoader.Load(this, ref _address);
+                return LazyLoader.Load(this, ref _address);
             }
 
             set
@@ -71,3 +72,4 @@ namespace DotMarket.Models
 
     }
 }
+

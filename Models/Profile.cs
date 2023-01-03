@@ -23,19 +23,19 @@ namespace DotMarket.Models
 
         public long Id { get; set; }
         
-        public string FirstName { get; set; } = string.Empty;
+        public string FirstName { get; set; } 
 
-        public string LastName { get; set; } = string.Empty;
+        public string LastName { get; set; } 
 
-        public string FiscalCode { get; set; } = string.Empty;
+        public string FiscalCode { get; set; } 
 
         public DateTime? Birthday { get; set; } 
 
         public DateTime AtCreated { get; set; }
 
-        public bool IsSubscribed { get; set; } = false;
+        public bool IsSubscribed { get; set; }
         // one to one con User
-        public string UserId { get; set; } = string.Empty;
+        public string UserId { get; set; } 
 
         public User User { get; set; }
 

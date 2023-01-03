@@ -7,7 +7,7 @@ namespace DotMarket.Models
 
     public class Kart
     {
-        private ILazyLoader _lazyLoader;
+        private ILazyLoader LazyLoader;
 
         private Order? _order;
         private Product? _product;
@@ -16,8 +16,8 @@ namespace DotMarket.Models
         public Kart( ) {  }
 
         public Kart(ILazyLoader lazyLoader) {
-          
-            _lazyLoader = lazyLoader;
+
+            LazyLoader = lazyLoader;
         
         }
 
@@ -37,7 +37,7 @@ namespace DotMarket.Models
         {
             get
             {
-                return _lazyLoader.Load(this, ref _order);
+                return LazyLoader.Load(this, ref _order);
             }
 
             set
@@ -50,7 +50,7 @@ namespace DotMarket.Models
         {
             get
             {
-                return _lazyLoader.Load(this, ref _product);
+                return LazyLoader.Load(this, ref _product);
             }
 
             set

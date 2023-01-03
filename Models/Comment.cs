@@ -2,6 +2,7 @@
 using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 using static System.Net.Mime.MediaTypeNames;
+using Microsoft.EntityFrameworkCore.Infrastructure.Internal;
 
 namespace DotMarket.Models
 {
@@ -9,7 +10,7 @@ namespace DotMarket.Models
     public class Comment
     {
 
-        private ILazyLoader _lazyLoader;
+        private ILazyLoader LazyLoader;
         private Profile _profile;
         private Product _product;
 
@@ -17,7 +18,7 @@ namespace DotMarket.Models
 
         private Comment(ILazyLoader lazyLoader)
         {
-            _lazyLoader = lazyLoader;
+            LazyLoader = lazyLoader;
         }
 
         public long Id { get; set; }
@@ -32,7 +33,7 @@ namespace DotMarket.Models
         {
             get
             {
-                return _lazyLoader.Load(this, ref _profile);
+                return LazyLoader.Load(this, ref _profile);
             }
 
             set
@@ -45,7 +46,7 @@ namespace DotMarket.Models
         {
             get
             {
-                return _lazyLoader.Load(this, ref _product);
+                return LazyLoader.Load(this, ref _product);
             }
 
             set
