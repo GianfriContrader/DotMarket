@@ -8,7 +8,7 @@ namespace DotMarket.Models
     {
         private ILazyLoader LazyLoader;
         private IEnumerable<Profile> _profiles = new List<Profile>();
-        private Payment payment;
+        private Payment _payment;
         public Address() { }
 
         private Address(ILazyLoader lazyLoader)
@@ -19,7 +19,7 @@ namespace DotMarket.Models
         public string City { get; set; }      
         public string Province { get; set; } 
         public string Region { get; set; } 
-       /* public Payment Payment {
+        public Payment Payment {
             get
             {
                 return LazyLoader.Load(this, ref _payment);
@@ -29,7 +29,7 @@ namespace DotMarket.Models
             {
                 _payment = value;
             }
-        } */
+        } 
 
         //many to many con Profile
         public IEnumerable<Profile> Profiles

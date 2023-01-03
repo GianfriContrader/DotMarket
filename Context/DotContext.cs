@@ -74,7 +74,7 @@
             // relazioni uno a uno
 
             modelBuilder.Entity<Order>().HasOne(x => x.Payment).WithOne(x => x.Order).HasForeignKey("payment_id");
-            modelBuilder.Entity<Payment>().HasOne(s => s.Order).WithOne(s => s.Payment).HasForeignKey("order_id");
+            modelBuilder.Entity<Payment>().HasOne(p => p.Order).WithOne(o => o.Payment).HasForeignKey("order_id");
 
 
             modelBuilder.Entity<Product>().HasOne(x => x.Image).WithOne(x => x.Product).HasForeignKey("image_id");
