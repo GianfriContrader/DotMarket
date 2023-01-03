@@ -88,7 +88,6 @@
 
             // relazione molti a molti
 
-
             modelBuilder.Entity<Tag>().HasMany(x => x.Products).WithMany(x => x.Tags);
 
 
@@ -120,7 +119,6 @@
              *  modelBuilder.Entity<Entity>()
              *      .HasMany(x => x.Products)
              *      .WithMany(x => x.Tags);
-
             */
 
 
