@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Infrastructure.Internal;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace DotMarket.Models
@@ -7,7 +8,7 @@ namespace DotMarket.Models
     public class Order
     {
 
-        private ILazyLoader _lazyLoader;
+        private ILazyLoader LazyLoader;
         private Profile? _profile;
         private Payment? _payment;
         private IEnumerable<Kart> _karts = new List<Kart>();
@@ -15,10 +16,9 @@ namespace DotMarket.Models
 
         private Order(ILazyLoader lazyLoader)
         {
-            _lazyLoader = lazyLoader;
+            LazyLoader = lazyLoader;
         }
 
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public  long Id { get; set; }
         public string CodeOrd { get; set; }
         public float TotalPrice { get; set; }
@@ -32,7 +32,7 @@ namespace DotMarket.Models
         {
             get
             {
-                return _lazyLoader.Load(this, ref _profile);
+                return LazyLoader.Load(this, ref _profile);
             }
 
             set
@@ -45,7 +45,7 @@ namespace DotMarket.Models
         {
             get
             {
-                return _lazyLoader.Load(this, ref _payment);
+                return LazyLoader.Load(this, ref _payment);
             }
 
             set
@@ -58,7 +58,7 @@ namespace DotMarket.Models
         {
             get
             {
-                return _lazyLoader.Load(this, ref _karts);
+                return LazyLoader.Load(this, ref _karts);
             }
 
             set

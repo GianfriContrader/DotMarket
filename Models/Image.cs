@@ -12,14 +12,14 @@ namespace DotMarket.Models
    
         public class Image
         {
-            private ILazyLoader _lazyLoader;
+            private ILazyLoader LazyLoader;
             private Product? _product;
 
             public Image() { }
 
             private Image(ILazyLoader lazyLoader)
             {
-                _lazyLoader = lazyLoader;
+                   LazyLoader = lazyLoader;
             }
 
             public long Id { get; set; }
@@ -32,7 +32,7 @@ namespace DotMarket.Models
             {
                 get
                 {
-                    return _lazyLoader.Load(this, ref _product);
+                    return LazyLoader.Load(this, ref _product);
                 }
 
                 set

@@ -73,13 +73,18 @@
 
             // relazioni uno a uno
 
-            modelBuilder.Entity<Order>().HasOne(x => x.Payment).WithOne(x => x.Order).HasForeignKey("profile_id");
-            modelBuilder.Entity<Product>().HasOne(x => x.Image).WithOne(x => x.Product).HasForeignKey("profile_id");
-            modelBuilder.Entity<Payment>().HasOne<DataPayment>(s => s.DataPayment) .WithOne(s => s.Payment) .HasForeignKey<DataPayment>(d => d.PaymentId);
-            modelBuilder.Entity<Payment>().HasOne<Address>(s => s.Address).WithOne(s => s.Payment).HasForeignKey<Address>(ad => ad.PaymentId);
-            modelBuilder.Entity<Payment>().HasOne<Order>(s => s.Order).WithOne(s => s.Payment).HasForeignKey<Order>(ad => ad.PaymentId);
-            modelBuilder.Entity<InvoicePDF>().HasOne<DataPayment>(s => s.DataPayment) .WithOne(s => s.invoicePDF) .HasForeignKey<DataPayment>(d => d.InvoicePDFId);
-            modelBuilder.Entity<User>().HasOne(p => p.Profile).WithOne(ad => ad.User) .HasForeignKey<Profile>(ad => ad.UserId);
+            modelBuilder.Entity<Order>().HasOne(x => x.Payment).WithOne(x => x.Order).HasForeignKey("payment_id");
+            modelBuilder.Entity<Payment>().HasOne(s => s.Order).WithOne(s => s.Payment).HasForeignKey("order_id");
+
+
+            modelBuilder.Entity<Product>().HasOne(x => x.Image).WithOne(x => x.Product).HasForeignKey("image_id");
+
+            modelBuilder.Entity<Payment>().HasOne(s => s.DataPayment).WithOne(s => s.Payment).HasForeignKey("datapayment_id");
+
+            modelBuilder.Entity<Payment>().HasOne(s => s.Address).WithOne(s => s.Payment).HasForeignKey("address_id");
+
+            modelBuilder.Entity<InvoicePDF>().HasOne(s => s.DataPayment).WithOne(s => s.InvoicePDF).HasForeignKey("datapayment_id");
+            modelBuilder.Entity<User>().HasOne(p => p.Profile).WithOne(ad => ad.User).HasForeignKey("profile_id");
 
             // relazione molti a molti
 

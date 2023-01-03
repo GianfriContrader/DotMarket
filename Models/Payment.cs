@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Infrastructure.Internal;
 
 namespace DotMarket.Models
 {
@@ -9,7 +8,7 @@ namespace DotMarket.Models
 
     public class Payment
     {
-        private ILazyLoader _LazyLoader;
+        private ILazyLoader LazyLoader;
         private DataPayment? _dataPayment;
         private Order? _order;
         private Address? _address;
@@ -21,9 +20,9 @@ namespace DotMarket.Models
         }
 
         //constructor with parameter _lazyLoader
-        private Payment(ILazyLoader _lazyLoader)
+        private Payment(ILazyLoader lazyLoader)
         {
-            _LazyLoader = _lazyLoader;
+            LazyLoader = lazyLoader;
         }
 
         public long Id { get; set; }
@@ -34,7 +33,7 @@ namespace DotMarket.Models
         {
             get
             {
-                return _LazyLoader.Load(this, ref _dataPayment);
+                return LazyLoader.Load(this, ref _dataPayment);
             }
 
             set
@@ -47,7 +46,7 @@ namespace DotMarket.Models
         {
             get
             {
-                return _LazyLoader.Load(this, ref _order);
+                return LazyLoader.Load(this, ref _order);
             }
 
             set
@@ -60,7 +59,7 @@ namespace DotMarket.Models
         {
             get
             {
-                return _LazyLoader.Load(this, ref _address);
+                return LazyLoader.Load(this, ref _address);
             }
 
             set
@@ -71,3 +70,4 @@ namespace DotMarket.Models
 
     }
 }
+
