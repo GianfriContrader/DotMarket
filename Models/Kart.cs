@@ -13,7 +13,7 @@ namespace DotMarket.Models
         private Product? _product;
 
 
-        public Kart( )        {  }
+        public Kart( ) {  }
 
         public Kart(ILazyLoader lazyLoader) {
           

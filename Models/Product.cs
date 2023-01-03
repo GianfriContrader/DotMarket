@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace DotMarket.Models
 {
@@ -12,6 +13,7 @@ namespace DotMarket.Models
         private IEnumerable<Comment> _comments = new List<Comment>();
         private IEnumerable<Tag> _tags = new List<Tag>();
         private IEnumerable<Kart> _karts = new List<Kart>();
+        private Image? _image;
 
         public Product() { }
 
@@ -72,6 +74,19 @@ namespace DotMarket.Models
             set
             {
                 _karts = value;
+            }
+        }
+
+        public Image Image
+        {
+            get
+            {
+                return LazyLoader.Load(this, ref _image);
+            }
+
+            set
+            {
+                _image = value;
             }
         }
     }
