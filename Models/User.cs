@@ -2,6 +2,7 @@
 {
     public class User : IdentityUser
     { 
-        public Profile Profile { get; set; } = new Profile();
+        public Profile Profile { get; set; }
     }
 }
+<

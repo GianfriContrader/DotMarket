@@ -18,22 +18,14 @@ namespace DotMarket.Models
             _lazyLoader = lazyLoader;
         }
 
-
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public  long Id { get; set; }
-
         public string CodeOrd { get; set; }
-
         public float TotalPrice { get; set; }
-
-
         public bool FastDelivery { get; set; }
-
         public bool ProcessedPayment { get; set; }
-
         public  bool Delivered { get; set; }
-
-
+        public long PaymentId { get; set; }
 
 
         public Profile? Profile
@@ -48,6 +40,7 @@ namespace DotMarket.Models
                 _profile = value;
             }
         }
+
         public Payment? Payment
         {
             get
