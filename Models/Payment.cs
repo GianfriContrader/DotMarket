@@ -9,9 +9,9 @@ namespace DotMarket.Models
     public class Payment
     {
         private ILazyLoader LazyLoader;
-        private DataPayment? _dataPayment;
-        private Order? _order;
-        private Address? _address;
+        private DataPayment _dataPayment;
+        private Order _order;
+        private Address _address;
 
         //constructor with no arguments
         public Payment()
@@ -29,7 +29,9 @@ namespace DotMarket.Models
 
         public long ResponsePay { get; set; }
 
-        public DataPayment? DataPayment
+        public long AddressId { get; set; }
+
+        public DataPayment DataPayment
         {
             get
             {
@@ -42,7 +44,7 @@ namespace DotMarket.Models
             }
         }
 
-        public Order? Order
+        public Order Order
         {
             get
             {
@@ -55,7 +57,7 @@ namespace DotMarket.Models
             }
         }
         
-        public Address? Address
+        public Address Address
         {
             get
             {

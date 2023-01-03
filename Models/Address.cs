@@ -8,18 +8,28 @@ namespace DotMarket.Models
     {
         private ILazyLoader LazyLoader;
         private IEnumerable<Profile> _profiles = new List<Profile>();
+        private Payment payment;
         public Address() { }
 
         private Address(ILazyLoader lazyLoader)
         {
             LazyLoader = lazyLoader;
         }
-        public string ZipCode { get; set; } = string.Empty;
-        public string City { get; set; } = string.Empty;        
-        public string Province { get; set; } = string.Empty;
-        public string Region { get; set; } = string.Empty;  
-        public Payment Payment { get; set; } = new Payment();
-        public long PaymentId { get; set; }
+        public string ZipCode { get; set; }
+        public string City { get; set; }      
+        public string Province { get; set; } 
+        public string Region { get; set; } 
+        public Payment Payment {
+            get
+            {
+                return LazyLoader.Load(this, ref _payment);
+            }
+
+            set
+            {
+                _payment = value;
+            }
+        } 
 
         //many to many con Profile
         public IEnumerable<Profile> Profiles
