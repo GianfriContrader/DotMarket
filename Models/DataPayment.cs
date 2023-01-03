@@ -29,7 +29,7 @@ namespace DotMarket.Models
         public string Circuit { get; set; }
         public string Number { get; set; }
         public DateOnly ExpirationDate { get; set; }
-       
+     
         public int SecurityCode { get; set; }
 
 
