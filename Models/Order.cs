@@ -7,11 +7,11 @@ namespace DotMarket.Models
 
     public class Order
     {
-
         private ILazyLoader LazyLoader;
-        private Profile? _profile;
-        private Payment? _payment;
+        private Profile _profile;
+        //private Payment _payment;
         private IEnumerable<Kart> _karts = new List<Kart>();
+
         public Order() { }
 
         private Order(ILazyLoader lazyLoader)
@@ -20,15 +20,21 @@ namespace DotMarket.Models
         }
 
         public  long Id { get; set; }
+
         public string CodeOrd { get; set; }
+
         public float TotalPrice { get; set; }
+
         public bool FastDelivery { get; set; }
+
         public bool ProcessedPayment { get; set; }
+
         public  bool Delivered { get; set; }
-        public long PaymentId { get; set; }
 
-
-        public Profile? Profile
+        //relazione molti-a-uno, obbligatoria
+        public long ProfileId { get; set; }
+        //
+        public Profile Profile
         {
             get
             {
@@ -41,18 +47,7 @@ namespace DotMarket.Models
             }
         }
 
-        public Payment? Payment
-        {
-            get
-            {
-                return LazyLoader.Load(this, ref _payment);
-            }
-
-            set
-            {
-                _payment = value;
-            }
-        }
+        public Payment Payment { get; set; }
 
         public IEnumerable<Kart> Karts
         {

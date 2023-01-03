@@ -10,13 +10,13 @@ namespace DotMarket.Models
     {
         private ILazyLoader LazyLoader;
         private DataPayment _dataPayment;
-        private Order _order;
+        //private Order _order;
         private Address _address;
+        private InvoicePDF _invoicePDF;
 
         //constructor with no arguments
         public Payment()
         {
-
         }
 
         //constructor with parameter _lazyLoader
@@ -29,8 +29,8 @@ namespace DotMarket.Models
 
         public long ResponsePay { get; set; }
 
-        public long AddressId { get; set; }
-
+        public long DataPaymentId { get; set; }
+        //
         public DataPayment DataPayment
         {
             get
@@ -44,19 +44,12 @@ namespace DotMarket.Models
             }
         }
 
-        public Order Order
-        {
-            get
-            {
-                return LazyLoader.Load(this, ref _order);
-            }
-
-            set
-            {
-                _order = value;
-            }
-        }
+        public long OrderId { get; set; }
+        //
+        public Order Order { get; set; }
         
+        public long AddressId { get; set; }
+        //
         public Address Address
         {
             get
@@ -70,6 +63,18 @@ namespace DotMarket.Models
             }
         }
 
+        public InvoicePDF? InvoicePDF
+        {
+            get
+            {
+                return LazyLoader.Load(this, ref _invoicePDF);
+            }
+
+            set
+            {
+                _invoicePDF = value;
+            }
+        }
     }
 }
 

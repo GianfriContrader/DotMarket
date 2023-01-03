@@ -4,6 +4,7 @@ using DotMarket.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DotMarket.Migrations
 {
     [DbContext(typeof(DotContext))]
-    partial class DotContextModelSnapshot : ModelSnapshot
+    [Migration("20230103153840_identity8")]
+    partial class identity8
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -266,6 +269,9 @@ namespace DotMarket.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("Id")
+                        .IsUnique();
+
                     b.HasIndex("ProfileId");
 
                     b.ToTable("Orders", (string)null);
@@ -297,6 +303,9 @@ namespace DotMarket.Migrations
                         .IsUnique();
 
                     b.HasIndex("DataPaymentId")
+                        .IsUnique();
+
+                    b.HasIndex("Id")
                         .IsUnique();
 
                     b.HasIndex("OrderId")

@@ -5,11 +5,6 @@ using System.ComponentModel.DataAnnotations;
 
 namespace DotMarket.Models
 {
-
-
-
-
-   
         public class Image
         {
             private ILazyLoader LazyLoader;
@@ -19,7 +14,7 @@ namespace DotMarket.Models
 
             private Image(ILazyLoader lazyLoader)
             {
-                   LazyLoader = lazyLoader;
+                LazyLoader = lazyLoader;
             }
 
             public long Id { get; set; }
@@ -40,6 +35,5 @@ namespace DotMarket.Models
                     _product = value;
                 }
             }
-
         }
     }

@@ -9,7 +9,7 @@ namespace DotMarket.Models
     public class InvoicePDF
     {
         private ILazyLoader LazyLoader;
-        private DataPayment? _dataPayment;
+        private Payment _payment;
 
         //constructor with no arguments
         public InvoicePDF()
@@ -25,26 +25,28 @@ namespace DotMarket.Models
         public long Id { get; set; }
 
         public decimal LoadingStatus { get; set; }
+
         public long InvoiceCode { get; set; }
+
         public DateTime ReleaseDate { get; set; }
+
         public byte DataPDF { get; set; }
+
         public byte DataExcel { get; set; }
 
-        public DataPayment? DataPayment
+        public long PaymentId { get; set; }
+        //
+        public Payment Payment
         {
             get
             {
-                return LazyLoader.Load(this, ref _dataPayment);
+                return LazyLoader.Load(this, ref _payment);
             }
 
             set
             {
-                _dataPayment = value;
+                _payment = value;
             }
         }
-
-
-
-
     }
 }

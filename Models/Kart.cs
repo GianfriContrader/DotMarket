@@ -4,25 +4,20 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace DotMarket.Models
 {
-
     public class Kart
     {
         private ILazyLoader LazyLoader;
-
         private Order? _order;
         private Product? _product;
 
-
         public Kart( ) {  }
 
-        public Kart(ILazyLoader lazyLoader) {
-
+        public Kart(ILazyLoader lazyLoader)
+        {
             LazyLoader = lazyLoader;
-        
         }
 
-       public long Id { get; set; }
-
+        public long Id { get; set; }
 
         public int Quantity { get; set; }=1;
 
@@ -32,7 +27,9 @@ namespace DotMarket.Models
 
         public uint DiscountApplied { get; set; } = 0;
 
-
+        //relazione uno-a-uno, lato obbligatorio
+        public long OrderId { get; set; }
+        //
         public Order Order
         {
             get
@@ -46,6 +43,9 @@ namespace DotMarket.Models
             }
         }
 
+        //relazione uno-a-uno, lato obbligatorio
+        public long ProductId { get; set; }
+        //
         public Product Product
         {
             get
@@ -58,7 +58,5 @@ namespace DotMarket.Models
                 _product = value;
             }
         }
-
-
     }
 }

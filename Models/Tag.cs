@@ -7,7 +7,6 @@ namespace DotMarket.Models
     */
     public class Tag
     {
-
         private ILazyLoader LazyLoader;
         private IEnumerable<Product> _products = new List<Product>();
 
@@ -41,6 +40,5 @@ namespace DotMarket.Models
                 _products = value;
             }
         }
-    
     }
 }

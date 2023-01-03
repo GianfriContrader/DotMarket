@@ -6,7 +6,6 @@ using static System.Net.Mime.MediaTypeNames;
 
 namespace DotMarket.Models
 {
-
     public class Product
     {
         private ILazyLoader LazyLoader;
@@ -23,6 +22,7 @@ namespace DotMarket.Models
         }
 
         public long Id { get; set; }
+
         public string Name { get; set; }
 
         public float Price { get; set; }
@@ -35,9 +35,6 @@ namespace DotMarket.Models
 
         public uint Stars { get; set; }
         
-
-
-
         public IEnumerable<Comment> Comments
         {
             get
@@ -77,6 +74,8 @@ namespace DotMarket.Models
             }
         }
 
+        public long ImageId { get; set; }
+        //
         public Image Image
         {
             get
