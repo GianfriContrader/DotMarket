@@ -23,7 +23,14 @@ namespace DotMarket.Models
         }
 
         public long Id { get; set; }
-        public DataPayment? DataPayment 
+
+        public decimal LoadingStatus { get; set; }
+        public long InvoiceCode { get; set; }
+        public DateTime ReleaseDate { get; set; }
+        public byte DataPDF { get; set; }
+        public byte DataExcel { get; set; }
+
+        public DataPayment? DataPayment
         {
             get
             {
@@ -36,14 +43,8 @@ namespace DotMarket.Models
             }
         }
 
-        public decimal LoadingStatus { get; set; }
-        public long InvoiceCode { get; set; }
-        public DateTime ReleaseDate { get; set; }
-        public byte DataPDF { get; set; }
-        public byte DataExcel { get; set; }
 
 
 
-        
     }
 }
