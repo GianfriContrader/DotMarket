@@ -26,7 +26,7 @@ namespace DotMarket.Models
         public long Id { get; set; }
         public string Circuit { get; set; }
         public string Number { get; set; }
-        public DateOnly ExpirationDate { get; set; }
+        public DateTime ExpirationDate { get; set; }
         public int SecurityCode { get; set; }
 
         public Payment Payment { get; set; } = new Payment();
