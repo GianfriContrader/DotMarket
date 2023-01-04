@@ -16,6 +16,13 @@ builder.Services.AddDbContext<DotContext>(options => options.UseLazyLoadingProxi
 // ignietto il servizio di identity.
 builder.Services.AddIdentity<User, IdentityRole>().AddEntityFrameworkStores<DotContext>().AddDefaultTokenProviders();
 
+// gestisco il cookie
+builder.Services.ConfigureApplicationCookie(options =>
+{
+    options.Cookie.Name = ".AspNetCore.Identity.Application";
+    options.ExpireTimeSpan = TimeSpan.FromMinutes(5);
+    options.SlidingExpiration = true;
+});
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

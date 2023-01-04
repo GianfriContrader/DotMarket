@@ -49,6 +49,56 @@ namespace DotMarket.Controllers
             return BadRequest("Qualcosa è andato storto.");
         }
 
+        [HttpPut("{id}")]
+
+        public async Task<IActionResult> UpdateUser(string id, string email, string password)
+        {
+            User user = await _userManager.FindByIdAsync(id);
+
+            if (user != null)
+            {
+                if (!string.IsNullOrEmpty(email))
+                    user.Email = email;
+                else
+                    ModelState.AddModelError("", "L'email non può essere nulla");
+
+                if (!string.IsNullOrEmpty(password))
+                    user.PasswordHash = _passwordHasher.HashPassword(user, password);
+                else
+                    ModelState.AddModelError("", "La password non può essere vuoto");
+
+                if (!string.IsNullOrEmpty(email) && !string.IsNullOrEmpty(password))
+                {
+                    IdentityResult result = await _userManager.UpdateAsync(user);
+                    if (result.Succeeded)
+                        return Ok("Utente modificato");
+                    else
+                        Errors(result);
+
+                }
+            }
+
+            return NotFound("Utente non trovato");
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteUser(string id)
+        {
+            User user = await _userManager.FindByIdAsync(id);
+
+            if (user != null)
+            {
+                IdentityResult result = await _userManager.DeleteAsync(user);
+
+                if (result.Succeeded)
+                    return Ok("Utente eliminato");
+                else
+                    Errors(result);
+            }
+            return NotFound("Id utente non trovato.");
+        }
+
+
         private void Errors(IdentityResult result)
         {
             foreach (IdentityError error in result.Errors)
