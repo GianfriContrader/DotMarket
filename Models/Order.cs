@@ -10,7 +10,7 @@ namespace DotMarket.Models
         private ILazyLoader LazyLoader;
         private Profile _profile;
         //private Payment _payment;
-        private Kart _kart;
+        private IEnumerable<Kart> _karts =new List<Kart>();
 
         public Order() { }
 
@@ -51,6 +51,17 @@ namespace DotMarket.Models
         //
         public Payment Payment { get; set; }
 
-        public Kart Kart { get; set; }
-    }
+        public IEnumerable<Kart> Karts
+		{
+			get
+			{
+				return LazyLoader.Load(this, ref _karts);
+			}
+
+			set
+			{
+				_karts = value;
+			}
+		}
+	}
 }

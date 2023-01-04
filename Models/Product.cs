@@ -75,7 +75,7 @@ namespace DotMarket.Models
         }
 
         //relazione uno-a-uno
-        public long ImageId { get; set; }
+        public long? ImageId { get; set; }
         //
         public Image Image
         {

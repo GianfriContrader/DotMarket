@@ -4,6 +4,7 @@ using DotMarket.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DotMarket.Migrations
 {
     [DbContext(typeof(DotContext))]
-    partial class DotContextModelSnapshot : ModelSnapshot
+    [Migration("20230104135837_mig1")]
+    partial class mig1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -226,7 +229,8 @@ namespace DotMarket.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("OrderId");
+                    b.HasIndex("OrderId")
+                        .IsUnique();
 
                     b.HasIndex("ProductId");
 
@@ -285,7 +289,7 @@ namespace DotMarket.Migrations
                     b.Property<long>("InvoicePDFId")
                         .HasColumnType("bigint");
 
-                    b.Property<long?>("OrderId")
+                    b.Property<long>("OrderId")
                         .HasColumnType("bigint");
 
                     b.Property<long>("ResponsePay")
@@ -302,8 +306,7 @@ namespace DotMarket.Migrations
                         .IsUnique();
 
                     b.HasIndex("OrderId")
-                        .IsUnique()
-                        .HasFilter("[OrderId] IS NOT NULL");
+                        .IsUnique();
 
                     b.ToTable("Payments", (string)null);
                 });
@@ -673,9 +676,9 @@ namespace DotMarket.Migrations
             modelBuilder.Entity("DotMarket.Models.Kart", b =>
                 {
                     b.HasOne("DotMarket.Models.Order", "Order")
-                        .WithMany("Karts")
-                        .HasForeignKey("OrderId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .WithOne("Kart")
+                        .HasForeignKey("DotMarket.Models.Kart", "OrderId")
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("DotMarket.Models.Product", "Product")
@@ -846,7 +849,8 @@ namespace DotMarket.Migrations
 
             modelBuilder.Entity("DotMarket.Models.Order", b =>
                 {
-                    b.Navigation("Karts");
+                    b.Navigation("Kart")
+                        .IsRequired();
 
                     b.Navigation("Payment")
                         .IsRequired();
