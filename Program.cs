@@ -1,8 +1,9 @@
 global using Microsoft.EntityFrameworkCore;
 global using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-global using  DotMarket.Context;
+global using DotMarket.Context;
 global using Microsoft.AspNetCore.Identity;
 global using DotMarket.Models;
+global using DotMarket.DTO;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -24,7 +25,9 @@ builder.Services.ConfigureApplicationCookie(options =>
     options.SlidingExpiration = true;
 });
 
-builder.Services.AddControllers();
+builder.Services.AddControllers().AddNewtonsoftJson(options =>
+    options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+);
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
