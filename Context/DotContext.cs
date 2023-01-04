@@ -30,20 +30,23 @@
             /*IdentityUserLogin<string>*/
             //TODO: Aggiungere APIfluent. 
 
-            //****** USER ******
-            modelBuilder.Entity<Profile>()
-                .HasOne(p => p.User)
-                .WithOne(ad => ad.Profile)
-                .HasForeignKey<User>(ad => ad.ProfileId);
-
-
             //****** PROFILE ******
             modelBuilder.Entity<Profile>().ToTable("Profiles").HasKey(p => p.Id);
             modelBuilder.Entity<Profile>().HasIndex(p => p.Id).IsUnique();
             modelBuilder.Entity<Profile>()
                 .HasMany(p => p.Addresses)
                 .WithMany(a => a.Profiles);
-            
+            modelBuilder.Entity<Profile>()
+                .HasOne(p => p.User)
+                .WithOne(ad => ad.Profile)
+                .HasForeignKey<User>(ad => ad.ProfileId);
+
+            modelBuilder.Entity<Profile>().Property(p => p.FirstName).HasColumnType("VARCHAR(50)").HasMaxLength(50).IsRequired();
+            modelBuilder.Entity<Profile>().Property(p => p.LastName).HasColumnType("VARCHAR(50)").HasMaxLength(50).IsRequired();
+            modelBuilder.Entity<Profile>().Property(p => p.FiscalCode).IsFixedLength(true).HasColumnType("VARCHAR(16)").HasMaxLength(16);
+            modelBuilder.Entity<Profile>().Property(p => p.Birthday).HasColumnType("DATETIME");
+            modelBuilder.Entity<Profile>().Property(p => p.AtCreated).HasColumnType("DATETIME");
+
             //****** ADDRESS ******
             modelBuilder.Entity<Address>().ToTable("Addresses").HasKey(a => a.Id);
             modelBuilder.Entity<Address>().HasIndex(a => a.Id).IsUnique();
@@ -52,7 +55,10 @@
                 .WithOne(p => p.Address)
                 .HasForeignKey<Payment>(p => p.AddressId);
 
-            // *************************************** NEEEWWWW
+            modelBuilder.Entity<Address>().Property(p => p.City).HasColumnType("VARCHAR(50)").HasMaxLength(50).IsRequired();
+            modelBuilder.Entity<Address>().Property(p => p.Province).HasColumnType("VARCHAR(2)").HasMaxLength(2).IsRequired();
+            modelBuilder.Entity<Address>().Property(p => p.Region).HasColumnType("VARCHAR(50)").HasMaxLength(50).IsRequired();
+
 
             //****** PAYMENTS ******
             modelBuilder.Entity<Payment>().ToTable("Payments").HasKey(a => a.Id);
@@ -67,7 +73,7 @@
                 .WithMany(d => d.Payments)
                 .HasForeignKey("DataPaymentId");
 
-
+            modelBuilder.Entity<Payment>().Property(p => p.ResponsePay).HasColumnType("BIGINT").IsRequired();   
 
 
             //****** DATA PAYMENTS ******
@@ -77,8 +83,12 @@
                 .HasOne(d => d.Profile)
                 .WithMany(p => p.DataPayments)
                 .HasForeignKey("ProfileId");
-            
 
+            modelBuilder.Entity<DataPayment>().Property(p => p.ExpirationDate).HasColumnType("DATETIME").IsRequired();
+            modelBuilder.Entity<DataPayment>().Property(p => p.Circuit).HasColumnType("VARCHAR(50)").HasMaxLength(50).IsRequired();
+            modelBuilder.Entity<DataPayment>().Property(p => p.Number).IsFixedLength(true).HasColumnType("VARCHAR(16)").HasMaxLength(16).IsRequired();
+            modelBuilder.Entity<DataPayment>().Property(p => p.ExpirationDate).HasColumnType("DATETIME").IsRequired();
+            modelBuilder.Entity<DataPayment>().Property(p => p.SecurityCode).IsFixedLength(true).HasColumnType("VARCHAR(3)").HasMaxLength(3);
 
 
             //****** INVOICE PDF ******
@@ -88,6 +98,12 @@
                 .HasOne(i => i.Payment)
                 .WithOne(p => p.InvoicePDF)
                 .HasForeignKey<Payment>(p => p.InvoiceId);
+
+            modelBuilder.Entity<InvoicePDF>().Property(i => i.LoadingStatus).HasColumnType("REAL");
+            modelBuilder.Entity<InvoicePDF>().Property(i => i.InvoiceCode).HasColumnType("VARCHAR(100)").HasMaxLength(100).IsRequired();
+            modelBuilder.Entity<InvoicePDF>().Property(i => i.ReleaseDate).HasColumnType("DATETIME");
+            modelBuilder.Entity<InvoicePDF>().Property(i => i.DataPDF).HasColumnType("TINYINT");
+            modelBuilder.Entity<InvoicePDF>().Property(i => i.DataExcel).HasColumnType("TINYINT");
 
 
             //****** COMMENTS ******
@@ -102,10 +118,16 @@
                 .WithMany(p => p.Comments)
                 .HasForeignKey("ProductId");
 
+            modelBuilder.Entity<Comment>().Property(c => c.Title).HasColumnType("VARCHAR(50)").HasMaxLength(50).IsRequired();
+            modelBuilder.Entity<Comment>().Property(c => c.Description).HasColumnType("TEXT").IsRequired();
+            modelBuilder.Entity<Comment>().Property(c => c.IsLike).HasColumnType("BIT").IsRequired();
+
 
             //****** TAGS ******
             modelBuilder.Entity<Tag>().ToTable("Tags").HasKey(a => a.Id);
             modelBuilder.Entity<Tag>().HasIndex(a => a.Id).IsUnique();
+
+            modelBuilder.Entity<Tag>().Property(t => t.Name).HasColumnType("VARCHAR(10)").HasMaxLength(10).IsRequired();
 
 
             //****** IMAGES ******
@@ -116,6 +138,8 @@
                 .WithOne(p => p.Image)
                 .HasForeignKey<Product>(p => p.ImageId);
 
+            modelBuilder.Entity<Image>().Property(i => i.PathImage).HasColumnType("VARCHAR(255)").HasMaxLength(255);
+
 
             //****** PRODUCTS ******
             modelBuilder.Entity<Product>().ToTable("Products").HasKey(a => a.Id);
@@ -123,6 +147,14 @@
             modelBuilder.Entity<Product>()
                 .HasMany(p => p.Tags)
                 .WithMany(a => a.Products);
+
+            modelBuilder.Entity<Product>().Property(p => p.Name).HasColumnType("VARCHAR(50)").HasMaxLength(50).IsRequired();
+            modelBuilder.Entity<Product>().Property(p => p.Description).HasColumnType("TEXT").IsRequired();
+            modelBuilder.Entity<Product>().Property(p => p.Price).HasColumnType("REAL").IsRequired();
+            modelBuilder.Entity<Product>().Property(p => p.Quantity).HasColumnType("INT").IsRequired();
+            modelBuilder.Entity<Product>().Property(p => p.Status).HasColumnType("VARCHAR(1)").HasMaxLength(1).IsRequired();
+            modelBuilder.Entity<Product>().Property(p => p.Stars).HasColumnType("INT");
+            modelBuilder.Entity<Product>().Property(p => p.ImageId).HasColumnType("BIGINT");
 
 
             //****** ORDERS ******
@@ -134,6 +166,11 @@
                 .HasForeignKey("ProfileId")
                 .OnDelete(DeleteBehavior.NoAction);
 
+            modelBuilder.Entity<Order>().Property(o => o.CodeOrd).HasColumnType("VARCHAR(32)").HasMaxLength(32).IsRequired();
+            modelBuilder.Entity<Order>().Property(o => o.IsFastDelivery).HasColumnType("BIT").IsRequired();
+            modelBuilder.Entity<Order>().Property(o => o.IsDelivered).HasColumnType("BIT").IsRequired();
+            modelBuilder.Entity<Order>().Property(o => o.IsFastDelivery).HasColumnType("BIT").IsRequired();
+
 
             //****** KARTS ******
             modelBuilder.Entity<Kart>().ToTable("Karts").HasKey(a => a.Id);
@@ -142,6 +179,9 @@
                 .HasOne(i => i.Order)
                 .WithOne(p => p.Kart)
                 .HasForeignKey<Order>(p => p.KartId);
+
+            modelBuilder.Entity<Kart>().Property(k => k.TotalPrice).HasColumnType("REAL").IsRequired();
+            modelBuilder.Entity<Kart>().Property(k => k.CreatedAt).HasColumnType("DATETIME").IsRequired();
 
 
             //****** PRODUCTS KART ******
@@ -155,6 +195,8 @@
                 .HasOne(d => d.Product)
                 .WithMany(p => p.ProductsKart)
                 .HasForeignKey("ProductId");
+                        
+            modelBuilder.Entity<ProductKart>().Property(p => p.QtyToBuy).HasColumnType("INT").HasDefaultValue(1).IsRequired();
 
             //****** RELAZIONI *******
             //mini guida:
@@ -183,12 +225,6 @@
             */
 
 
-
-
-            //one to one (igor)
-
-
-            //many to many
 
         }
     }

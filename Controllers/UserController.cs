@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-namespace DotMarket.Controllers.Identity
+namespace DotMarket.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -26,7 +26,7 @@ namespace DotMarket.Controllers.Identity
         [HttpPost]
         public async Task<IActionResult> Register(RegisterDTO request)
         {
-            if(ModelState.IsValid)
+            if (ModelState.IsValid)
             {
                 User user = new()
                 {
@@ -51,7 +51,7 @@ namespace DotMarket.Controllers.Identity
 
         private void Errors(IdentityResult result)
         {
-            foreach(IdentityError error in result.Errors)
+            foreach (IdentityError error in result.Errors)
             {
                 ModelState.AddModelError("", error.Description);
             }
