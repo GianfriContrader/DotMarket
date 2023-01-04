@@ -43,7 +43,7 @@ namespace DotMarket.Models
             }
         }
 
-        //relazione uno-a-uno, lato obbligatorio
+        //relazione uno-a-molti
         public long ProductId { get; set; }
         //
         public Product Product

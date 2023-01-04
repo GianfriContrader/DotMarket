@@ -43,19 +43,6 @@ namespace DotMarket.Context
             modelBuilder.Entity<Payment>().ToTable("Payments").HasKey(t => t.Id);
             modelBuilder.Entity<InvoicePDF>().ToTable("InvoicesPDF").HasKey(t => t.Id);
 
-            // assegnazione campo unique chiave primaria
-            //modelBuilder.Entity<Profile>().HasIndex(p => p.Id).IsUnique();
-            //modelBuilder.Entity<Address>().HasIndex(a => a.ZipCode).IsUnique();
-            //modelBuilder.Entity<Comment>().HasIndex(x => x.Id).IsUnique();
-            //modelBuilder.Entity<Product>().HasIndex(x => x.Id).IsUnique();
-            //modelBuilder.Entity<Order>().HasIndex(x => x.Id).IsUnique();
-            //modelBuilder.Entity<Kart>().HasIndex(x => x.Id).IsUnique();
-            //modelBuilder.Entity<Image>().HasIndex(x => x.Id).IsUnique();
-            //modelBuilder.Entity<Tag>().HasIndex(t => t.Id).IsUnique();
-            //modelBuilder.Entity<DataPayment>().HasIndex(t => t.Id).IsUnique();
-            //modelBuilder.Entity<Payment>().HasIndex(t => t.Id).IsUnique();
-            //modelBuilder.Entity<InvoicePDF>().HasIndex(t => t.Id).IsUnique();
-
             // vincoli tabella Kart
             modelBuilder.Entity<Kart>().Property(p => p.Quantity).IsRequired();
             modelBuilder.Entity<Kart>().Property(p => p.ProductPrice).IsRequired();
@@ -97,7 +84,7 @@ namespace DotMarket.Context
 
             // vincoli tabella DataPayment
             modelBuilder.Entity<DataPayment>().Property(p => p.Circuit).IsRequired().HasColumnType("varchar").HasMaxLength(50);
-            modelBuilder.Entity<DataPayment>().Property(p => p.Number).IsRequired().HasColumnType("text").HasMaxLength(16);
+            modelBuilder.Entity<DataPayment>().Property(p => p.Number).IsRequired().HasColumnType("text").HasMaxLength(16); //correggere
             modelBuilder.Entity<DataPayment>().Property(p => p.ExpirationDate).IsRequired();
             modelBuilder.Entity<DataPayment>().Property(p => p.SecurityCode).IsRequired().HasColumnType("text").HasMaxLength(3);
 
@@ -111,49 +98,31 @@ namespace DotMarket.Context
             modelBuilder.Entity<Address>().Property(p => p.ZipCode).IsRequired().HasColumnType("varchar").HasMaxLength(5);
             modelBuilder.Entity<Address>().Property(p => p.Region).HasColumnType("varchar").HasMaxLength(20);
 
-            //// relazione uno a molti
-            //modelBuilder.Entity<Comment>().HasOne(x => x.Profile).WithMany(x => x.Comments).HasForeignKey("profile_id");
-            //modelBuilder.Entity<Comment>().HasOne(x => x.Product).WithMany(x => x.Comments).HasForeignKey("product_id").OnDelete(DeleteBehavior.ClientCascade); 
-            //modelBuilder.Entity<Kart>().HasOne(x => x.Order).WithMany(x => x.Karts).HasForeignKey("order_id").OnDelete(DeleteBehavior.ClientCascade);
-            //modelBuilder.Entity<Kart>().HasOne(x => x.Product).WithMany(x => x.Karts).HasForeignKey("product_id").OnDelete(DeleteBehavior.ClientCascade);
-            //modelBuilder.Entity<Order>().HasOne(x => x.Profile).WithMany(x => x.Orders).HasForeignKey("profile_id").OnDelete(DeleteBehavior.ClientCascade);
-            //modelBuilder.Entity<Profile>().HasMany(p => p.Addresses).WithMany(a => a.Profiles);
+            // relazione uno a molti //////////////////////////////////////////////////////
+            modelBuilder.Entity<Comment>().HasOne(c => c.Profile).WithMany(p => p.Comments).HasForeignKey(c => c.ProfileId);
+            modelBuilder.Entity<Order>().HasOne(o => o.Profile).WithMany(p => p.Orders).HasForeignKey(o => o.ProfileId); //.OnDelete(DeleteBehavior.ClientCascade);
 
+            // relazioni molti a uno //////////////////////////////////////////////////////
+            modelBuilder.Entity<Profile>().HasMany(p => p.DataPayments).WithOne(dp => dp.Profile).HasForeignKey(dp => dp.ProfileId);
+			modelBuilder.Entity<DataPayment>().HasMany(dp => dp.Payments).WithOne(p => p.DataPayment).HasForeignKey(p => p.DataPaymentId);
+			modelBuilder.Entity<Product>().HasMany(p => p.Comments).WithOne(c => c.Product).HasForeignKey(c => c.ProductId);
+            modelBuilder.Entity<Product>().HasMany(x => x.Karts).WithOne(x => x.Product).HasForeignKey(k => k.ProductId); //"product_id");
 
-            //// relazioni molti a uno
-            ////modelBuilder.Entity<Address>().HasOne(a => a.Payment).WithOne(p => p.Address).HasForeignKey<Payment>(p => p.AddressId);
-            modelBuilder.Entity<Payment>().HasOne(p => p.Address).WithOne(a => a.Payment).HasForeignKey<Payment>(p => p.AddressId);
-            modelBuilder.Entity<Product>().HasOne(p => p.Image).WithOne(i => i.Product).HasForeignKey<Product>(p => p.ImageId);
-            modelBuilder.Entity<Payment>().HasOne(p => p.Order).WithOne(o => o.Payment).HasForeignKey<Payment>(p => p.OrderId);
+            // relazioni uno a uno //////////////////////////////////////////////////////
+            modelBuilder.Entity<Payment>().HasOne(p => p.Address).WithOne(a => a.Payment).HasForeignKey<Payment>(p => p.AddressId); //.OnDelete(DeleteBehavior.NoAction);
+            modelBuilder.Entity<Payment>().HasOne(p => p.Order).WithOne(o => o.Payment).HasForeignKey<Payment>(p => p.OrderId).OnDelete(DeleteBehavior.NoAction);
+            modelBuilder.Entity<Payment>().HasOne(p => p.InvoicePDF).WithOne(i => i.Payment).HasForeignKey<Payment>(p => p.InvoicePDFId).OnDelete(DeleteBehavior.NoAction);
+            //
+            modelBuilder.Entity<Kart>().HasOne(k => k.Order).WithOne(o => o.Kart).HasForeignKey<Kart>(k => k.OrderId).OnDelete(DeleteBehavior.NoAction);
+            //
+            modelBuilder.Entity<Product>().HasOne(x => x.Image).WithOne(x => x.Product).HasForeignKey<Product>(p => p.ImageId);
+            //
+            modelBuilder.Entity<User>().HasOne(u => u.Profile).WithOne(p => p.User).HasForeignKey<User>(u => u.ProfileId);
 
-            //modelBuilder.Entity<Order>().HasMany(x => x.Karts).WithOne(x => x.Order).HasForeignKey("kart_id");
-            //modelBuilder.Entity<Product>().HasMany(x => x.Comments).WithOne(x => x.Product).HasForeignKey("comment_id");
-            //modelBuilder.Entity<Product>().HasMany(x => x.Karts).WithOne(x => x.Product).HasForeignKey("Kart_id");
+            // relazioni molti-a-molti ////////////////////////////////////////////////////////////////
+            modelBuilder.Entity<Product>().HasMany(p => p.Tags).WithMany(t => t.Products);
+            modelBuilder.Entity<Address>().HasMany(a => a.Profiles).WithMany(p => p.Addresses);
 
-
-            //// relazioni uno a uno
-
-            //modelBuilder.Entity<Order>().HasOne(x => x.Payment).WithOne(x => x.Order).HasForeignKey("payment_id");
-            //modelBuilder.Entity<Payment>().HasOne(s => s.Order).WithOne(s => s.Payment).HasForeignKey("order_id");
-
-
-            //modelBuilder.Entity<Product>().HasOne(x => x.Image).WithOne(x => x.Product).HasForeignKey("image_id");
-
-            //modelBuilder.Entity<Payment>().HasOne(s => s.DataPayment).WithOne(s => s.Payment).HasForeignKey("datapayment_id");
-
-            //modelBuilder.Entity<Payment>().HasOne(s => s.Address).WithOne(s => s.Payment).HasForeignKey("address_id");
-
-            //modelBuilder.Entity<InvoicePDF>().HasOne(s => s.DataPayment).WithOne(s => s.InvoicePDF).HasForeignKey("datapayment_id");
-            //modelBuilder.Entity<User>().HasOne(p => p.Profile).WithOne(ad => ad.User).HasForeignKey("profile_id");
-
-            // relazione molti a molti
-            modelBuilder.Entity<Address>().HasMany(a => a.Profiles).WithMany(p => p.Addresses);      //(x => x.Products).WithMany(x => x.Tags);
-
-
-     
-            
-            
-            
             //****** RELAZIONI *******
             //mini guida:
             /*
@@ -185,8 +154,8 @@ namespace DotMarket.Context
 
 
             //one to one (igor)
-           
-        
+
+
             //many to many
 
         }

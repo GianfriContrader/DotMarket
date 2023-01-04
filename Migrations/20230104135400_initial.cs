@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace DotMarket.Migrations
 {
     /// <inheritdoc />
-    public partial class identity7 : Migration
+    public partial class initial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -54,6 +54,24 @@ namespace DotMarket.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Images", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "InvoicesPDF",
+                columns: table => new
+                {
+                    Id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    LoadingStatus = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    InvoiceCode = table.Column<long>(type: "bigint", nullable: false),
+                    ReleaseDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    DataPDF = table.Column<byte>(type: "tinyint", nullable: false),
+                    DataExcel = table.Column<byte>(type: "tinyint", nullable: false),
+                    PaymentId = table.Column<long>(type: "bigint", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_InvoicesPDF", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -394,8 +412,7 @@ namespace DotMarket.Migrations
                         name: "FK_Karts_Orders_OrderId",
                         column: x => x.OrderId,
                         principalTable: "Orders",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Karts_Products_ProductId",
                         column: x => x.ProductId,
@@ -413,7 +430,8 @@ namespace DotMarket.Migrations
                     ResponsePay = table.Column<long>(type: "bigint", nullable: false),
                     DataPaymentId = table.Column<long>(type: "bigint", nullable: false),
                     OrderId = table.Column<long>(type: "bigint", nullable: false),
-                    AddressId = table.Column<long>(type: "bigint", nullable: false)
+                    AddressId = table.Column<long>(type: "bigint", nullable: false),
+                    InvoicePDFId = table.Column<long>(type: "bigint", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -431,35 +449,15 @@ namespace DotMarket.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
+                        name: "FK_Payments_InvoicesPDF_InvoicePDFId",
+                        column: x => x.InvoicePDFId,
+                        principalTable: "InvoicesPDF",
+                        principalColumn: "Id");
+                    table.ForeignKey(
                         name: "FK_Payments_Orders_OrderId",
                         column: x => x.OrderId,
                         principalTable: "Orders",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "InvoicesPDF",
-                columns: table => new
-                {
-                    Id = table.Column<long>(type: "bigint", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    LoadingStatus = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    InvoiceCode = table.Column<long>(type: "bigint", nullable: false),
-                    ReleaseDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    DataPDF = table.Column<byte>(type: "tinyint", nullable: false),
-                    DataExcel = table.Column<byte>(type: "tinyint", nullable: false),
-                    PaymentId = table.Column<long>(type: "bigint", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_InvoicesPDF", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_InvoicesPDF_Payments_PaymentId",
-                        column: x => x.PaymentId,
-                        principalTable: "Payments",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateIndex(
@@ -528,15 +526,10 @@ namespace DotMarket.Migrations
                 column: "ProfileId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_InvoicesPDF_PaymentId",
-                table: "InvoicesPDF",
-                column: "PaymentId",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Karts_OrderId",
                 table: "Karts",
-                column: "OrderId");
+                column: "OrderId",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Karts_ProductId",
@@ -557,7 +550,12 @@ namespace DotMarket.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_Payments_DataPaymentId",
                 table: "Payments",
-                column: "DataPaymentId",
+                column: "DataPaymentId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Payments_InvoicePDFId",
+                table: "Payments",
+                column: "InvoicePDFId",
                 unique: true);
 
             migrationBuilder.CreateIndex(
@@ -603,10 +601,10 @@ namespace DotMarket.Migrations
                 name: "Comments");
 
             migrationBuilder.DropTable(
-                name: "InvoicesPDF");
+                name: "Karts");
 
             migrationBuilder.DropTable(
-                name: "Karts");
+                name: "Payments");
 
             migrationBuilder.DropTable(
                 name: "ProductTag");
@@ -618,7 +616,16 @@ namespace DotMarket.Migrations
                 name: "AspNetUsers");
 
             migrationBuilder.DropTable(
-                name: "Payments");
+                name: "Addresses");
+
+            migrationBuilder.DropTable(
+                name: "DataPayments");
+
+            migrationBuilder.DropTable(
+                name: "InvoicesPDF");
+
+            migrationBuilder.DropTable(
+                name: "Orders");
 
             migrationBuilder.DropTable(
                 name: "Products");
@@ -627,19 +634,10 @@ namespace DotMarket.Migrations
                 name: "Tags");
 
             migrationBuilder.DropTable(
-                name: "Addresses");
-
-            migrationBuilder.DropTable(
-                name: "DataPayments");
-
-            migrationBuilder.DropTable(
-                name: "Orders");
+                name: "Profiles");
 
             migrationBuilder.DropTable(
                 name: "Images");
-
-            migrationBuilder.DropTable(
-                name: "Profiles");
         }
     }
 }

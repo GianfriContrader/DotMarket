@@ -10,7 +10,7 @@ namespace DotMarket.Models
     {
         private ILazyLoader LazyLoader;
         private Profile _profile;
-        private Payment _payment;
+        private IEnumerable<Payment> _payments = new List<Payment>();
 
         //constructor with no arguments
         public DataPayment()
@@ -33,6 +33,9 @@ namespace DotMarket.Models
 
         public string SecurityCode { get; set; }
 
+        // relazione uno-a-molti
+        public long ProfileId { get; set; }
+        //
         public Profile Profile
         {
             get
@@ -46,16 +49,16 @@ namespace DotMarket.Models
             }
         }
 
-        public Payment Payment
+        public IEnumerable<Payment> Payments
         {
             get
             {
-                return LazyLoader.Load(this, ref _payment);
+                return LazyLoader.Load(this, ref _payments);
             }
 
             set
             {
-                _payment = value;
+                _payments = value;
             }
         }
     }

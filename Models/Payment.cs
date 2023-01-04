@@ -63,7 +63,9 @@ namespace DotMarket.Models
             }
         }
 
-        public InvoicePDF? InvoicePDF
+        public long InvoicePDFId { get; set; }
+        //
+        public InvoicePDF InvoicePDF
         {
             get
             {
