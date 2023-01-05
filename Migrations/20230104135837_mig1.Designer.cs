@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DotMarket.Migrations
 {
     [DbContext(typeof(DotContext))]
-    [Migration("20230103154812_identity9")]
-    partial class identity9
+    [Migration("20230104135837_mig1")]
+    partial class mig1
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -50,23 +50,28 @@ namespace DotMarket.Migrations
 
                     b.Property<string>("City")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("varchar");
 
                     b.Property<string>("Province")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("varchar");
 
                     b.Property<string>("Region")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(20)
+                        .HasColumnType("varchar");
 
                     b.Property<string>("Residence")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("varchar");
 
                     b.Property<string>("ZipCode")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(5)
+                        .HasColumnType("varchar");
 
                     b.HasKey("Id");
 
@@ -83,7 +88,7 @@ namespace DotMarket.Migrations
 
                     b.Property<string>("Description")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("varchar");
 
                     b.Property<bool>("IsLike")
                         .HasColumnType("bit");
@@ -96,7 +101,8 @@ namespace DotMarket.Migrations
 
                     b.Property<string>("Title")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("varchar");
 
                     b.HasKey("Id");
 
@@ -117,21 +123,24 @@ namespace DotMarket.Migrations
 
                     b.Property<string>("Circuit")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("varchar");
 
                     b.Property<DateTime>("ExpirationDate")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Number")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(16)
+                        .HasColumnType("text");
 
                     b.Property<long>("ProfileId")
                         .HasColumnType("bigint");
 
                     b.Property<string>("SecurityCode")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(3)
+                        .HasColumnType("text");
 
                     b.HasKey("Id");
 
@@ -189,9 +198,6 @@ namespace DotMarket.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("PaymentId")
-                        .IsUnique();
-
                     b.ToTable("InvoicesPDF", (string)null);
                 });
 
@@ -223,7 +229,8 @@ namespace DotMarket.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("OrderId");
+                    b.HasIndex("OrderId")
+                        .IsUnique();
 
                     b.HasIndex("ProductId");
 
@@ -240,7 +247,8 @@ namespace DotMarket.Migrations
 
                     b.Property<string>("CodeOrd")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(32)
+                        .HasColumnType("varchar");
 
                     b.Property<bool>("Delivered")
                         .HasColumnType("bit");
@@ -278,6 +286,9 @@ namespace DotMarket.Migrations
                     b.Property<long>("DataPaymentId")
                         .HasColumnType("bigint");
 
+                    b.Property<long>("InvoicePDFId")
+                        .HasColumnType("bigint");
+
                     b.Property<long>("OrderId")
                         .HasColumnType("bigint");
 
@@ -289,7 +300,9 @@ namespace DotMarket.Migrations
                     b.HasIndex("AddressId")
                         .IsUnique();
 
-                    b.HasIndex("DataPaymentId")
+                    b.HasIndex("DataPaymentId");
+
+                    b.HasIndex("InvoicePDFId")
                         .IsUnique();
 
                     b.HasIndex("OrderId")
@@ -308,14 +321,15 @@ namespace DotMarket.Migrations
 
                     b.Property<string>("Description")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("varchar");
 
-                    b.Property<long>("ImageId")
+                    b.Property<long?>("ImageId")
                         .HasColumnType("bigint");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("varchar");
 
                     b.Property<float>("Price")
                         .HasColumnType("real");
@@ -328,12 +342,14 @@ namespace DotMarket.Migrations
 
                     b.Property<string>("Status")
                         .IsRequired()
+                        .HasMaxLength(1)
                         .HasColumnType("nvarchar(1)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("ImageId")
-                        .IsUnique();
+                        .IsUnique()
+                        .HasFilter("[ImageId] IS NOT NULL");
 
                     b.ToTable("Products", (string)null);
                 });
@@ -354,18 +370,21 @@ namespace DotMarket.Migrations
 
                     b.Property<string>("FirstName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("varchar");
 
                     b.Property<string>("FiscalCode")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(16)
+                        .HasColumnType("text");
 
                     b.Property<bool>("IsSubscribed")
                         .HasColumnType("bit");
 
                     b.Property<string>("LastName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("varchar");
 
                     b.HasKey("Id");
 
@@ -382,7 +401,8 @@ namespace DotMarket.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(10)
+                        .HasColumnType("varchar");
 
                     b.HasKey("Id");
 
@@ -653,23 +673,12 @@ namespace DotMarket.Migrations
                     b.Navigation("Profile");
                 });
 
-            modelBuilder.Entity("DotMarket.Models.InvoicePDF", b =>
-                {
-                    b.HasOne("DotMarket.Models.Payment", "Payment")
-                        .WithOne("InvoicePDF")
-                        .HasForeignKey("DotMarket.Models.InvoicePDF", "PaymentId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Payment");
-                });
-
             modelBuilder.Entity("DotMarket.Models.Kart", b =>
                 {
                     b.HasOne("DotMarket.Models.Order", "Order")
-                        .WithMany("Karts")
-                        .HasForeignKey("OrderId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .WithOne("Kart")
+                        .HasForeignKey("DotMarket.Models.Kart", "OrderId")
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("DotMarket.Models.Product", "Product")
@@ -703,20 +712,28 @@ namespace DotMarket.Migrations
                         .IsRequired();
 
                     b.HasOne("DotMarket.Models.DataPayment", "DataPayment")
-                        .WithOne("Payment")
-                        .HasForeignKey("DotMarket.Models.Payment", "DataPaymentId")
+                        .WithMany("Payments")
+                        .HasForeignKey("DataPaymentId")
                         .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("DotMarket.Models.InvoicePDF", "InvoicePDF")
+                        .WithOne("Payment")
+                        .HasForeignKey("DotMarket.Models.Payment", "InvoicePDFId")
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("DotMarket.Models.Order", "Order")
                         .WithOne("Payment")
                         .HasForeignKey("DotMarket.Models.Payment", "OrderId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("Address");
 
                     b.Navigation("DataPayment");
+
+                    b.Navigation("InvoicePDF");
 
                     b.Navigation("Order");
                 });
@@ -816,8 +833,7 @@ namespace DotMarket.Migrations
 
             modelBuilder.Entity("DotMarket.Models.DataPayment", b =>
                 {
-                    b.Navigation("Payment")
-                        .IsRequired();
+                    b.Navigation("Payments");
                 });
 
             modelBuilder.Entity("DotMarket.Models.Image", b =>
@@ -825,17 +841,19 @@ namespace DotMarket.Migrations
                     b.Navigation("Product");
                 });
 
-            modelBuilder.Entity("DotMarket.Models.Order", b =>
+            modelBuilder.Entity("DotMarket.Models.InvoicePDF", b =>
                 {
-                    b.Navigation("Karts");
-
                     b.Navigation("Payment")
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("DotMarket.Models.Payment", b =>
+            modelBuilder.Entity("DotMarket.Models.Order", b =>
                 {
-                    b.Navigation("InvoicePDF");
+                    b.Navigation("Kart")
+                        .IsRequired();
+
+                    b.Navigation("Payment")
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("DotMarket.Models.Product", b =>

@@ -195,9 +195,6 @@ namespace DotMarket.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("PaymentId")
-                        .IsUnique();
-
                     b.ToTable("InvoicesPDF", (string)null);
                 });
 
@@ -285,7 +282,10 @@ namespace DotMarket.Migrations
                     b.Property<long>("DataPaymentId")
                         .HasColumnType("bigint");
 
-                    b.Property<long>("OrderId")
+                    b.Property<long>("InvoicePDFId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long?>("OrderId")
                         .HasColumnType("bigint");
 
                     b.Property<long>("ResponsePay")
@@ -296,11 +296,14 @@ namespace DotMarket.Migrations
                     b.HasIndex("AddressId")
                         .IsUnique();
 
-                    b.HasIndex("DataPaymentId")
+                    b.HasIndex("DataPaymentId");
+
+                    b.HasIndex("InvoicePDFId")
                         .IsUnique();
 
                     b.HasIndex("OrderId")
-                        .IsUnique();
+                        .IsUnique()
+                        .HasFilter("[OrderId] IS NOT NULL");
 
                     b.ToTable("Payments", (string)null);
                 });
@@ -317,7 +320,7 @@ namespace DotMarket.Migrations
                         .IsRequired()
                         .HasColumnType("varchar");
 
-                    b.Property<long>("ImageId")
+                    b.Property<long?>("ImageId")
                         .HasColumnType("bigint");
 
                     b.Property<string>("Name")
@@ -342,7 +345,8 @@ namespace DotMarket.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("ImageId")
-                        .IsUnique();
+                        .IsUnique()
+                        .HasFilter("[ImageId] IS NOT NULL");
 
                     b.ToTable("Products", (string)null);
                 });
@@ -666,17 +670,6 @@ namespace DotMarket.Migrations
                     b.Navigation("Profile");
                 });
 
-            modelBuilder.Entity("DotMarket.Models.InvoicePDF", b =>
-                {
-                    b.HasOne("DotMarket.Models.Payment", "Payment")
-                        .WithOne("InvoicePDF")
-                        .HasForeignKey("DotMarket.Models.InvoicePDF", "PaymentId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Payment");
-                });
-
             modelBuilder.Entity("DotMarket.Models.Kart", b =>
                 {
                     b.HasOne("DotMarket.Models.Order", "Order")
@@ -716,20 +709,28 @@ namespace DotMarket.Migrations
                         .IsRequired();
 
                     b.HasOne("DotMarket.Models.DataPayment", "DataPayment")
-                        .WithOne("Payment")
-                        .HasForeignKey("DotMarket.Models.Payment", "DataPaymentId")
+                        .WithMany("Payments")
+                        .HasForeignKey("DataPaymentId")
                         .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("DotMarket.Models.InvoicePDF", "InvoicePDF")
+                        .WithOne("Payment")
+                        .HasForeignKey("DotMarket.Models.Payment", "InvoicePDFId")
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("DotMarket.Models.Order", "Order")
                         .WithOne("Payment")
                         .HasForeignKey("DotMarket.Models.Payment", "OrderId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("Address");
 
                     b.Navigation("DataPayment");
+
+                    b.Navigation("InvoicePDF");
 
                     b.Navigation("Order");
                 });
@@ -829,13 +830,18 @@ namespace DotMarket.Migrations
 
             modelBuilder.Entity("DotMarket.Models.DataPayment", b =>
                 {
-                    b.Navigation("Payment")
-                        .IsRequired();
+                    b.Navigation("Payments");
                 });
 
             modelBuilder.Entity("DotMarket.Models.Image", b =>
                 {
                     b.Navigation("Product");
+                });
+
+            modelBuilder.Entity("DotMarket.Models.InvoicePDF", b =>
+                {
+                    b.Navigation("Payment")
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("DotMarket.Models.Order", b =>
@@ -844,11 +850,6 @@ namespace DotMarket.Migrations
 
                     b.Navigation("Payment")
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("DotMarket.Models.Payment", b =>
-                {
-                    b.Navigation("InvoicePDF");
                 });
 
             modelBuilder.Entity("DotMarket.Models.Product", b =>
