@@ -6,11 +6,16 @@
 
     public class TagDTO
     {
-        public string Name { get; set; }
+
+    }
+    public class ReadTagDTO : TagDTO
+    {
+        public long Id { get; set; }
     }
 
     public class InsertTagDTO : TagDTO
     {
+        public string Name { get; set; }
     }
 
     public class EditTagDTO : TagDTO 

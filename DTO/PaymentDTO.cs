@@ -12,8 +12,6 @@
     {
         public long DataPaymentId { get; set; }
         public long OrderId { get; set; }
-
-        public long ResponsePay { get; set; }
         public long AddressId { get; set; }
     }
 
