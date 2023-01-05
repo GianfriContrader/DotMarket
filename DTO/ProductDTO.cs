@@ -9,7 +9,7 @@
     }
     public class ReadProductDTO : ProductDTO
     {
-
+        public long Id { get; set; }
     }
     public class InsertProductDTO
     {
