@@ -8,7 +8,7 @@ namespace DotMarket.Models
 
     public class Payment
     {
-        private ILazyLoader LazyLoader;
+        
         private DataPayment _dataPayment;
         //private Order _order;
         private Address _address;
@@ -20,10 +20,7 @@ namespace DotMarket.Models
         }
 
         //constructor with parameter _lazyLoader
-        private Payment(ILazyLoader lazyLoader)
-        {
-            LazyLoader = lazyLoader;
-        }
+        
 
         public long Id { get; set; }
 
@@ -33,47 +30,23 @@ namespace DotMarket.Models
         //
         public DataPayment DataPayment
         {
-            get
-            {
-                return LazyLoader.Load(this, ref _dataPayment);
-            }
-
-            set
-            {
-                _dataPayment = value;
-            }
+            get;set;
         }
 
         public long OrderId { get; set; }
-        //
+        
         public Order Order { get; set; }
         
         public long AddressId { get; set; }
-        //
+        
         public Address Address
         {
-            get
-            {
-                return LazyLoader.Load(this, ref _address);
-            }
-
-            set
-            {
-                _address = value;
-            }
+            get;set;
         }
 
         public InvoicePDF? InvoicePDF
         {
-            get
-            {
-                return LazyLoader.Load(this, ref _invoicePDF);
-            }
-
-            set
-            {
-                _invoicePDF = value;
-            }
+            get;set;
         }
     }
 }
