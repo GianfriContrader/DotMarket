@@ -1,7 +1,7 @@
 ﻿namespace DotMarket.DTO
 {
     /*
-     * DataPaymentDTO
+     * DataPaymentDTO: DTO dell'entity DataPayment
      */ 
     public class DataPaymentDTO
     {

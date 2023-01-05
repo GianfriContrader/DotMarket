@@ -1,18 +1,18 @@
 ﻿namespace DotMarket.DTO
 {
     /*
-     * PaymentDTO 
+     * PaymentDTO: DTO dell'entity Payment
      */
 
     public class PaymentDTO
     {
-        
-    }
-    public class InsertPaymentDTO : PaymentDTO
-    {
         public long DataPaymentId { get; set; }
         public long OrderId { get; set; }
         public long AddressId { get; set; }
+    }
+    public class InsertPaymentDTO : PaymentDTO
+    {
+        
     }
 
 }
