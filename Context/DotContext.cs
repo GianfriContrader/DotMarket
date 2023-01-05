@@ -21,11 +21,14 @@ namespace DotMarket.Context
         public DbSet<InvoicePDF> InvoicesPDF { get; set; }
         
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
+        {   
         }
+
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+           
             base.OnModelCreating(modelBuilder);
             /*IdentityUserLogin<string>*/
             //TODO: Aggiungere APIfluent. 
