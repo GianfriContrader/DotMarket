@@ -1,6 +1,6 @@
 ﻿namespace DotMarket.DTO
 {
-    public class CommentBaseDTO
+    public class CommentDTO
     {
         public string Title { get; set; }
 
@@ -8,8 +8,8 @@
 
         public bool IsLike { get; set; }
     }
-
-    public class InsertCommentDTO : CommentBaseDTO
+   
+    public class InsertCommentDTO : CommentDTO
     {
 
         public long ProfileId { get; set; }
@@ -17,19 +17,10 @@
         public long ProductId { get; set; }
     }
 
-    public class ModifyCommentDTO : CommentBaseDTO
+    public class EditCommentDTO : CommentDTO
     {
         public long Id { get; set; }
 
         public int ProductId { get; set; }
-    }
-
-    public class CommentReadDTO : CommentBaseDTO
-    {
-        public int Id { get; set; }
-    }
-
-    public class CommentDTO : CommentReadDTO
-    {
     }
 }
