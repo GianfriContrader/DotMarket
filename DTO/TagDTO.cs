@@ -1,24 +1,19 @@
 ﻿namespace DotMarket.DTO
 {
     /*
-     * TagDTO 
+     * TagDTO: DTO dell'entity Tag
      */
 
     public class TagDTO
     {
-
-    }
-    public class ReadTagDTO : TagDTO
-    {
-        public long Id { get; set; }
-    }
-
-    public class InsertTagDTO : TagDTO
-    {
         public string Name { get; set; }
     }
+    public class InsertTagDTO : TagDTO
+    {
+        
+    }
 
-    public class EditTagDTO : TagDTO 
+    public class EditTagDTO : InsertTagDTO
     { 
         public long Id { get; set; }
     }
