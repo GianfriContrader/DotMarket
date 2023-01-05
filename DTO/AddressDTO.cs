@@ -1,7 +1,7 @@
 ﻿namespace DotMarket.DTO
 {
     /*
-     * AddressDTO
+     * AddressDTO: DTO dell'entity Address
      */
     public class AddressDTO
     {
@@ -9,11 +9,6 @@
         public string Province { get; set; }
         public string Residence { get; set; }
         public string Region { get; set; }
-    }
-
-    public class ReadAddressDTO : AddressDTO
-    {
-        
     }
 
     public class InsertAddressDTO : AddressDTO 

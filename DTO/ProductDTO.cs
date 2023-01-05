@@ -1,7 +1,7 @@
 ﻿namespace DotMarket.DTO
 {
     /*
-     * ProductDTO
+     * ProductDTO: DTO dell'entity Product
      */
     public class ProductDTO
     {

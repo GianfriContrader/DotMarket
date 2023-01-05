@@ -1,7 +1,7 @@
 ﻿namespace DotMarket.DTO
 {
     /*
-     * InvoicePDFDTO
+     * InvoicePDFDTO: DTO dell'entity InvoicePDF
      */
     public class InvoicePDFDTO
     {

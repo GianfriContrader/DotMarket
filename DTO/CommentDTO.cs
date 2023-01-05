@@ -1,5 +1,8 @@
 ﻿namespace DotMarket.DTO
 {
+    /*
+     * CommentDTO: DTO dell'entity Comment
+     */
     public class CommentBaseDTO
     {
         public string Title { get; set; }

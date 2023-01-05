@@ -1,5 +1,8 @@
 ﻿namespace DotMarket.DTO
 {
+    /*
+     * ImageDTO: DTO dell'entity Image
+     */
     public class ImageDTO
     {
 
